@@ -70,8 +70,8 @@ public class CustomArrayList<T> implements List<T> {
      */
     @Override
     public T get(int index) {
-        if (index < 0 || index > size) {
-            throw new IndexOutOfBoundsException();
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("ВЫХОД ЗА ПРЕДЕЛЫ МАССИВА");
         }
         return (T) arrays[index];
     }
@@ -86,17 +86,16 @@ public class CustomArrayList<T> implements List<T> {
      */
     @Override
     public boolean remove(int index) {
-        if (index < 0 || index >= arrays.length) {
-            return false;
+        if (index < 0 || index >= arrays.length-index) {
+            throw new IndexOutOfBoundsException();
         } else {
             size--;
             for (int i = index; i < arrays.length - 1; i++) {
-                arrays[i] = arrays[i + 1];
+                arrays[i] = arrays[i+1];
+
             }
             return true;
         }
-
-
     }
 
     @Override
@@ -106,6 +105,14 @@ public class CustomArrayList<T> implements List<T> {
 
     @Override
     public String toString() {
-        return "MyArrayList" + Arrays.toString(arrays);
+        StringBuilder stringBuilder = new StringBuilder("CustomArrayList{");
+        for (int i = 0; i < size; i++) {
+            stringBuilder.append(arrays[i]);
+            if (i < size - 1) {
+                stringBuilder.append(", ");
+            }
+        }
+        stringBuilder.append("}");
+        return stringBuilder.toString();
     }
 }
